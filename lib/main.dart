@@ -1,10 +1,14 @@
 import 'dart:convert';
 
+import 'package:expense_app/controller/signInControl/controller.dart';
+import 'package:expense_app/pages/signInPage/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
+  Get.put<SignInController>(SignInController());
   runApp(const MyApp());
 }
 
@@ -37,7 +41,7 @@ class MyApp extends StatelessWidget {
             onSecondary: Colors.black),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: const SignInPage(),
     );
   }
 }
