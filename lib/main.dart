@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-import 'home_page.dart';
-
 void main() {
   runApp(const MyApp());
 }
