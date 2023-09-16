@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
           color: Colors.amber,
           height: double.infinity,
           width: 500,
-          child: Row(
+          child: const Row(
             children: [
               Icon(Icons.currency_rupee),
               Text(

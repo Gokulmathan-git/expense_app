@@ -2,7 +2,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:get/get.dart';
 
 class SignInState {
-  RxBool isSkipped = false.obs;
   var selectedCountry = Country(
     phoneCode: "91",
     countryCode: "IN",
@@ -14,9 +13,10 @@ class SignInState {
     displayName: "India",
     displayNameNoCountryCode: "IN",
     e164Key: "",
-  ).obs;
+  ).obs; // country code
 
   RxInt textCount = 0.obs; // length of the text
   RxBool isOtp = false.obs;
   RxString otpNum = "".obs;
+  RxBool isLoading = false.obs;
 }
