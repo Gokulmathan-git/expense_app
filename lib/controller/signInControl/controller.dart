@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
+import '../../api/api.dart';
+import '../../modals/login_data.dart';
+
+import '../../routes/route_name.dart';
+import '../../userStore/user_store.dart';
 import 'state.dart';
 
 class SignInController extends GetxController {
@@ -39,14 +44,10 @@ class SignInController extends GetxController {
   // login
   void userLogin() async {
     String mobile = _phoneController.value.text;
-    print("inside userlogin $mobile value ${mobile.length}");
     if (mobile.isNotEmpty && mobile.length == 10) {
-      print("mobile $mobile");
-
       _signInWithPhoneNumber(
           "+${state.selectedCountry.value.phoneCode}$mobile");
       state.isLoading.value = true;
-      // );
     } else {
       print("null value of mobile number");
       Fluttertoast.showToast(
@@ -102,6 +103,7 @@ class SignInController extends GetxController {
   void otplogin() {
     if (state.otpNum.value.isNotEmpty) {
       _verifyOtp(state.otpNum.value);
+      state.isLoading.value = true;
     } else {
       Get.snackbar(
         "Failed :",
@@ -115,20 +117,19 @@ class SignInController extends GetxController {
   void _verifyOtp(
     String userOtp,
   ) async {
-    print("otp value $userOtp");
-    print("id verify ${verificationIdValue.value}");
     try {
       PhoneAuthCredential creds = PhoneAuthProvider.credential(
           verificationId: verificationIdValue.value, smsCode: userOtp);
-      var user = (await auth.signInWithCredential(creds)).user;
-      print(
-          "user details ${user!.phoneNumber}, ${user.uid},${user.displayName}");
-      // UserItem userLoginData = UserItem();
-      // userLoginData.phoneNumber = user.phoneNumber;
-      //postAllData(userLoginData);
+      var userValue = (await auth.signInWithCredential(creds)).user;
+
+      LoginData userLoginData = LoginData();
+      userLoginData.phoneNumber = userValue!.phoneNumber;
+      userLoginData.id = userValue.uid;
+
+      postAllData(userLoginData);
     } on FirebaseAuthException catch (e) {
       Fluttertoast.showToast(
-          msg: "Incorrect OTP",
+          msg: "$e",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -138,14 +139,23 @@ class SignInController extends GetxController {
     }
   }
 
-  // postAllData(UserItem userLoginData) async {
-  //   if (userLoginData.phoneNumber != null) {
-  //     await UserStore.to.saveProfile(userLoginData);
-  //   } else {
-  //     print("error in post all data");
-  //   }
-  //   Get.offAllNamed(AppRouteName.homePage);
-  // }
+  postAllData(LoginData userLoginData) async {
+    var result = await UserApi.login(responseBody: userLoginData);
+    if (result.msg == "success") {
+      await UserStore.to.saveProfile(result.data!);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Error in post data",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    state.isLoading.value = false;
+    Get.offAllNamed(AppRouteName.homePage);
+  }
 
   @override
   void onClose() {

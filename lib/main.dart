@@ -1,17 +1,13 @@
-import 'dart:convert';
-
-import 'package:expense_app/pages/signInPage/sign_in_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 import 'global/global_value.dart';
+import 'routes/route_name.dart';
+import 'routes/route_page.dart';
 
 void main() async {
   await Global.init();
-
   runApp(const MyApp());
 }
 
@@ -26,7 +22,7 @@ class MyApp extends StatelessWidget {
         systemNavigationBarColor: Color(0xffd6d4ce),
       ),
     );
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -44,100 +40,9 @@ class MyApp extends StatelessWidget {
             onSecondary: Colors.black),
         useMaterial3: true,
       ),
-      home: const SignInPage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  dynamic data;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  void initState() {
-    getHttp();
-    super.initState();
-  }
-
-  getHttp() async {
-    print('inside');
-    String url = 'https://api-for-check.vercel.app/readAll';
-    int token = 55;
-    // var response =
-    //     await http.get(Uri.parse(url));
-
-    var response = await http.get(Uri.parse(url), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      var items = json.decode(response.body);
-
-      setState(() {
-        data = items['data'];
-      });
-
-      print(data);
-    } else {
-      print("error in api");
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Title"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: data == null ? 0 : data.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      child: Text(
-                        data[index]['id'],
-                      ),
-                    ),
-                    title: Text(data[index]['name']),
-                    subtitle: Text(data[index]['lastname']),
-                  );
-                })
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      initialRoute: AppRouteName.initialPage,
+      getPages: AppRoutePage().getPage,
+      // home: const SignInPage(),
     );
   }
 }

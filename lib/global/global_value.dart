@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 
 import '../controller/signInControl/controller.dart';
 import '../firebase_options.dart';
+import '../storage/store_data.dart';
+import '../userStore/user_store.dart';
 
 class Global {
   static Future init() async {
@@ -16,6 +18,11 @@ class Global {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    Get.put<SignInController>(SignInController());
+    await Get.putAsync<StorageService>(
+      () => StorageService().init(),
+    );
+    Get.put<UserStore>(
+      UserStore(),
+    );
   }
 }
