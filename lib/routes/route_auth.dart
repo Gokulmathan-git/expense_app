@@ -19,7 +19,11 @@ class RouteAuthMiddleWare extends GetMiddleware {
     } else {
       Future.delayed(
         const Duration(seconds: 1),
-        () => Get.snackbar("Tips:", "Login expired, please login again"),
+        () => Get.snackbar(
+          "Tips:",
+          "Please login to continue",
+          backgroundColor: Colors.red,
+        ),
       );
       return const RouteSettings(name: AppRouteName.signInPage);
     }

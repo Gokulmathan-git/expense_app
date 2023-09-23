@@ -12,3 +12,18 @@ class LoginData {
         "id": id,
       };
 }
+
+class UserData {
+  String? name;
+  String? amount;
+
+  UserData({
+    this.name,
+    this.amount,
+  });
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "amount": amount,
+      };
+}

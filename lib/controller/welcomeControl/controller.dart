@@ -10,7 +10,7 @@ class WelcomeController extends GetxController {
   void onReady() {
     super.onReady();
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
       () => Get.offAllNamed(AppRouteName.homePage),
     );
     print("welcome page");

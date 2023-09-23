@@ -21,17 +21,16 @@ class UserItem {
       };
 }
 
-class UserLoginResponse {
+class ApiResponse {
   String? msg;
   UserItem? data;
 
-  UserLoginResponse({
+  ApiResponse({
     this.msg,
     this.data,
   });
 
-  factory UserLoginResponse.fromJson(Map<String, dynamic> json) =>
-      UserLoginResponse(
+  factory ApiResponse.fromJson(Map<String, dynamic> json) => ApiResponse(
         msg: json["msg"],
         data: UserItem.fromJson(json["data"]),
       );

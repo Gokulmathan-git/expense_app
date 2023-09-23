@@ -32,19 +32,26 @@ class SignInPage extends GetView<SignInController> {
                 if (controller.state.isLoading.value)
                   Container(
                     color: Colors.black.withOpacity(0.8),
-                    child: const Center(
+                    child: Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularProgressIndicator(),
-                          SizedBox(
+                          const CircularProgressIndicator(),
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text(
+                          const Text(
                             "Loading.....",
                             style: TextStyle(color: Colors.white, fontSize: 20),
-                          )
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: const Text("Back"),
+                          ),
                         ],
                       ),
                     ),

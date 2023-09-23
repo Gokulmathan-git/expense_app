@@ -16,7 +16,7 @@ class SignInState {
   ).obs; // country code
 
   RxInt textCount = 0.obs; // length of the text
-  RxBool isOtp = false.obs;
-  RxString otpNum = "".obs;
-  RxBool isLoading = false.obs;
+  RxBool isOtp = false.obs; // OTP is obtain or not
+  RxString otpNum = "".obs; // OTP number
+  RxBool isLoading = false.obs; // loader
 }

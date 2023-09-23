@@ -1,4 +1,5 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:expense_app/userStore/controller/connection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,6 +25,9 @@ class SignInController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   final verificationIdValue = "".obs;
 
+  final ConnectionManagerController _controller =
+      Get.find<ConnectionManagerController>();
+
 // text length finding
   textLength(int count) {
     state.textCount.value = count;
@@ -45,9 +49,13 @@ class SignInController extends GetxController {
   void userLogin() async {
     String mobile = _phoneController.value.text;
     if (mobile.isNotEmpty && mobile.length == 10) {
-      _signInWithPhoneNumber(
-          "+${state.selectedCountry.value.phoneCode}$mobile");
-      state.isLoading.value = true;
+      if (_controller.connectionType.value == 0) {
+        Get.snackbar("Connection Check:", "No Internet Connection");
+      } else {
+        _signInWithPhoneNumber(
+            "+${state.selectedCountry.value.phoneCode}$mobile");
+        state.isLoading.value = true;
+      }
     } else {
       print("null value of mobile number");
       Fluttertoast.showToast(
@@ -140,18 +148,20 @@ class SignInController extends GetxController {
   }
 
   postAllData(LoginData userLoginData) async {
-    var result = await UserApi.login(responseBody: userLoginData);
+    var result = await UserApi.loginData(
+        responseBody: userLoginData, appendUrl: "/create");
     if (result.msg == "success") {
       await UserStore.to.saveProfile(result.data!);
     } else {
       Fluttertoast.showToast(
-          msg: "Error in post data",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+        msg: "Error in post data",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
     state.isLoading.value = false;
     Get.offAllNamed(AppRouteName.homePage);

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../controller/signInControl/controller.dart';
 import '../firebase_options.dart';
 import '../storage/store_data.dart';
 import '../userStore/user_store.dart';

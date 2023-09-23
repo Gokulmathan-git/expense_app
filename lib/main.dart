@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'global/global_value.dart';
+import 'pages/homePage/form_page.dart';
 import 'routes/route_name.dart';
 import 'routes/route_page.dart';
+import 'userStore/controller/binding.dart';
 
 void main() async {
   await Global.init();
@@ -40,9 +42,10 @@ class MyApp extends StatelessWidget {
             onSecondary: Colors.black),
         useMaterial3: true,
       ),
+      initialBinding: ControllerBinding(),
       initialRoute: AppRouteName.initialPage,
       getPages: AppRoutePage().getPage,
-      // home: const SignInPage(),
+      // home: const FormPage(),
     );
   }
 }

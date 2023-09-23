@@ -19,7 +19,7 @@ class AppRoutePage {
     ),
     GetPage(
       name: AppRouteName.homePage,
-      page: () => HomePage(),
+      page: () => const HomePage(),
       binding: HomeBinding(),
       middlewares: [
         RouteAuthMiddleWare(priority: 1),
