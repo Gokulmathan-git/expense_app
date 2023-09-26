@@ -22,7 +22,7 @@ class RouteAuthMiddleWare extends GetMiddleware {
         () => Get.snackbar(
           "Tips:",
           "Please login to continue",
-          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
         ),
       );
       return const RouteSettings(name: AppRouteName.signInPage);

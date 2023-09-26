@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'global/global_value.dart';
-import 'pages/homePage/form_page.dart';
 import 'routes/route_name.dart';
 import 'routes/route_page.dart';
 import 'userStore/controller/binding.dart';
@@ -21,6 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
+        statusBarColor: Color(0xffd6d4ce),
+        statusBarBrightness: Brightness.dark,
         systemNavigationBarColor: Color(0xffd6d4ce),
       ),
     );

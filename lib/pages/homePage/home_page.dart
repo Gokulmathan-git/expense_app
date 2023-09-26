@@ -49,14 +49,7 @@ class HomePage extends GetView<HomeController> {
                       padding: const EdgeInsets.only(right: 8.0),
                       child: IconButton(
                         onPressed: () {
-                          if (controller.connectionCheck()) {
-                            Get.snackbar(
-                              "Network :",
-                              "Connection is done",
-                            );
-                          } else {
-                            Get.snackbar("Network :", "No Connection");
-                          }
+                          controller.logout();
                         },
                         icon: const Icon(
                           (Icons.logout),

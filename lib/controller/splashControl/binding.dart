@@ -2,9 +2,9 @@ import 'package:get/instance_manager.dart';
 
 import 'controller.dart';
 
-class WelcomeBinding extends Bindings {
+class SplashBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<WelcomeController>(() => WelcomeController());
+    Get.lazyPut<SplashController>(() => SplashController());
   }
 }
